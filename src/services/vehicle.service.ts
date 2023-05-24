@@ -1,13 +1,13 @@
 import {CreateVehicleDto, Vehicle, VehicleSpanish, VehicleSpanishDb} from "../types/vehicle.type";
 import {SwapiClient} from "../client/swapi.client";
-import {DynamoRepository} from "../repositories/dynamo.repository";
+import {DynamoClient} from "../client/dynamo.client";
 import {VEHICLES_TABLE_NAME} from "../helpers/constants";
 import {v4} from "uuid";
 
 export class VehicleService {
     public async getAll(): Promise<VehicleSpanishDb[]>{
         const swapiClient = new SwapiClient<Vehicle>("vehicles");
-        const dynamoRepository = new DynamoRepository<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
+        const dynamoRepository = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
 
         const swapiData: Vehicle[] = await swapiClient.getAll();
         const dynamoData: VehicleSpanishDb[] = await dynamoRepository.listAll();
@@ -42,7 +42,7 @@ export class VehicleService {
 
 
     public async createVehicle(vehicleToCreate: CreateVehicleDto): Promise<VehicleSpanishDb>{
-        const dynamoRepository = new DynamoRepository<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
+        const dynamoRepository = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
         const vehicle: VehicleSpanishDb = {
             ...vehicleToCreate,
             id: v4(),

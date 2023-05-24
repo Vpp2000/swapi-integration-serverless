@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 import {VEHICLES_TABLE_NAME} from "../helpers/constants";
 
-export class DynamoRepository<E> {
+export class DynamoClient<E> {
     private tableName: string;
     private dynamoClient: any;
 
