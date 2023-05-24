@@ -2,6 +2,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 import { v4 } from "uuid";
 import z from "zod"
+import {Vehicle} from "./types/vehicle.type";
+import {VehicleService} from "./services/vehicle.service";
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "VehiclesTable";
@@ -21,15 +23,12 @@ class HttpError extends Error {
 }
 
 export const listEntities = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const output = await docClient
-    .scan({
-      TableName: tableName,
-    })
-    .promise();
+  const vehicleService = new VehicleService();
+  const data: Vehicle[] = await vehicleService.getAll();
 
   return {
     statusCode: 200,
     headers,
-    body: JSON.stringify(output.Items),
+    body: JSON.stringify(data),
   };
 };
