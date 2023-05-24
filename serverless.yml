@@ -7,6 +7,11 @@ service: aws-starwars-serverless-api
 # Check out our docs for more details
 frameworkVersion: "3"
 
+custom:
+  autoswagger:
+    typefiles:
+      - './src/types/vehicle.type.ts'
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -30,6 +35,11 @@ functions:
       - httpApi:
           path: /vehicle
           method: get
+          responses:
+            200:
+              description: "Successful API response"
+              bodyType: "VehicleSpanishList"
+
   createVehicle:
     handler: src/handlers.createVehicle
     events:
@@ -38,8 +48,8 @@ functions:
           method: post
 
 plugins:
+  - serverless-auto-swagger
   - serverless-plugin-typescript
-
 
 resources:
   Resources:

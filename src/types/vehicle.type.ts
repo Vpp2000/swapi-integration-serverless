@@ -2,9 +2,9 @@ export interface Vehicle {
     cargo_capacity:         string;
     consumables:            string;
     cost_in_credits:        string;
-    created:                Date;
+    created:                string;
     crew:                   string;
-    edited:                 Date;
+    edited:                 string;
     length:                 string;
     manufacturer:           string;
     max_atmosphering_speed: string;
@@ -21,9 +21,9 @@ export interface VehicleSpanish {
     capacidad_carga:         string;
     consumibles:            string;
     costo_en_creditos:        string;
-    creadoEn:                Date;
+    creadoEn:                string;
     flota:                   string;
-    editadoEn:                 Date;
+    editadoEn:                 string;
     tamaño:                 string;
     fabricante:           string;
     velocidad_atmosferica_maxima: string;
@@ -39,6 +39,8 @@ export interface VehicleSpanish {
 export interface VehicleSpanishDb extends VehicleSpanish {
     id: string;
 }
+
+export type VehicleSpanishList = VehicleSpanish[];
 
 export interface CreateVehicleDto extends VehicleSpanish{
 
