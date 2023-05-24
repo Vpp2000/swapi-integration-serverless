@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 import { v4 } from "uuid";
 import z from "zod"
-import {CreateVehicleDto, Vehicle, VehicleSpanish} from "./types/vehicle.type";
+import {CreateVehicleDto, VehicleSwapi, VehicleSpanish} from "./types/vehicle.type";
 import {VehicleService} from "./services/vehicle.service";
 
 const docClient = new AWS.DynamoDB.DocumentClient();
