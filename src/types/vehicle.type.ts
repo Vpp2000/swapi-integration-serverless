@@ -1,5 +1,4 @@
 export interface Vehicle {
-    id?:                    string;
     cargo_capacity:         string;
     consumables:            string;
     cost_in_credits:        string;
@@ -19,7 +18,6 @@ export interface Vehicle {
 }
 
 export interface VehicleSpanish {
-    id?:                    string;
     capacidad_carga:         string;
     consumibles:            string;
     costo_en_creditos:        string;
@@ -36,4 +34,12 @@ export interface VehicleSpanish {
     peliculas:                  string[];
     url:                    string;
     clase_vehiculo:          string;
+}
+
+export interface VehicleSpanishDb extends VehicleSpanish {
+    id: string;
+}
+
+export interface CreateVehicleDto extends VehicleSpanish{
+
 }

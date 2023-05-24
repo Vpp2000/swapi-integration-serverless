@@ -24,13 +24,18 @@ provider:
             - { "Fn::GetAtt": ["VehiclesTable", "Arn"] }
 
 functions:
-  listEntities:
-    handler: src/handlers.listEntities
+  listVehicles:
+    handler: src/handlers.listVehicles
     events:
       - httpApi:
-          path: /entities
+          path: /vehicle
           method: get
-
+  createVehicle:
+    handler: src/handlers.createVehicle
+    events:
+      - httpApi:
+          path: /vehicle
+          method: post
 
 plugins:
   - serverless-plugin-typescript
@@ -46,8 +51,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         AttributeDefinitions:
-          - AttributeName: productID
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: productID
+          - AttributeName: id
             KeyType: HASH

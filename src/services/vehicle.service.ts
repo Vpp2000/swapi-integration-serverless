@@ -1,22 +1,18 @@
-import {Vehicle, VehicleSpanish} from "../types/vehicle.type";
+import {CreateVehicleDto, Vehicle, VehicleSpanish, VehicleSpanishDb} from "../types/vehicle.type";
 import {SwapiClient} from "../client/swapi.client";
 import {DynamoRepository} from "../repositories/dynamo.repository";
 import {VEHICLES_TABLE_NAME} from "../helpers/constants";
+import {v4} from "uuid";
 
 export class VehicleService {
-    public async getAll(): Promise<VehicleSpanish[]>{
+    public async getAll(): Promise<VehicleSpanishDb[]>{
         const swapiClient = new SwapiClient<Vehicle>("vehicles");
-        const dynamoRepository = new DynamoRepository<Vehicle>(VEHICLES_TABLE_NAME);
+        const dynamoRepository = new DynamoRepository<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
 
         const swapiData: Vehicle[] = await swapiClient.getAll();
-        const dynamoData: Vehicle[] = await dynamoRepository.listAll();
-        const data: Vehicle[] = [
-            ...swapiData,
-            ...dynamoData
-        ];
+        const dynamoData: VehicleSpanishDb[] = await dynamoRepository.listAll();
 
-        const spanishData: VehicleSpanish[] = data.map((vehicle)=> <VehicleSpanish> {
-            id: vehicle.id,
+        const swapiDataSpanish: VehicleSpanishDb[] = swapiData.map((vehicle) => <VehicleSpanishDb> {
             capacidad_carga: vehicle.cargo_capacity,
             consumibles: vehicle.consumables,
             costo_en_creditos: vehicle.cost_in_credits,
@@ -32,9 +28,26 @@ export class VehicleService {
             pilotos: vehicle.pilots,
             peliculas: vehicle.films,
             url: vehicle.url,
-            clase_vehiculo: vehicle.vehicle_class
+            clase_vehiculo: vehicle.vehicle_class,
+            id: ""
         })
 
+        const spanishData = [
+            ...swapiDataSpanish,
+            ...dynamoData
+        ]
+
         return spanishData;
+    }
+
+
+    public async createVehicle(vehicleToCreate: CreateVehicleDto): Promise<VehicleSpanishDb>{
+        const dynamoRepository = new DynamoRepository<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
+        const vehicle: VehicleSpanishDb = {
+            ...vehicleToCreate,
+            id: v4(),
+        };
+        await dynamoRepository.insert(vehicle);
+        return vehicle;
     }
 }
