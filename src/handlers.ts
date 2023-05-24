@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 import { v4 } from "uuid";
 import z from "zod"
-import {Vehicle} from "./types/vehicle.type";
+import {Vehicle, VehicleSpanish} from "./types/vehicle.type";
 import {VehicleService} from "./services/vehicle.service";
 
 const docClient = new AWS.DynamoDB.DocumentClient();
@@ -24,7 +24,7 @@ class HttpError extends Error {
 
 export const listEntities = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const vehicleService = new VehicleService();
-  const data: Vehicle[] = await vehicleService.getAll();
+  const data: VehicleSpanish[] = await vehicleService.getAll();
 
   return {
     statusCode: 200,
