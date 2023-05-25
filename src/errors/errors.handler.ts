@@ -2,6 +2,7 @@ import { ZodError } from "zod";
 import { HEADERS } from "../helpers/constants";
 import { HttpError } from "./http_error";
 import { ErrorMessageOptions, generateErrorMessage } from "zod-error";
+import { HttpStatusCode } from "axios";
 
 export class ErrorsHandler {
     public static handleError = (e: Error) => {
@@ -14,7 +15,7 @@ export class ErrorsHandler {
             };
 
             return {
-                statusCode: 400,
+                statusCode: HttpStatusCode.BadRequest,
                 HEADERS,
                 body: JSON.stringify({
                     message: "Schema error",
@@ -27,7 +28,7 @@ export class ErrorsHandler {
             console.log(e.getErrorMessage());
 
             return {
-                statusCode: 400,
+                statusCode: e.statusCode,
                 HEADERS,
                 body: JSON.stringify({
                     message: "Something went wrong",
@@ -37,7 +38,7 @@ export class ErrorsHandler {
 
         else {
             return {
-                statusCode: 400,
+                statusCode: 500,
                 HEADERS,
                 body: JSON.stringify({
                     message: "Something went wrong",

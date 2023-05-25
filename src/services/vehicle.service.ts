@@ -67,7 +67,7 @@ export class VehicleService {
         const vehicle = await this.dynamoClient.getElementByPrimaryKey(vehicleId);
 
         if(!vehicle){
-            throw new HttpError(404, "")
+            throw new HttpError(404, "Vehicle not found");
         }
 
         return vehicle;
