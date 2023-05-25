@@ -50,7 +50,7 @@ export class VehicleService {
     public async createVehicle(vehicleToCreate: CreateVehicleDto): Promise<VehicleSpanishDb>{
         const elementExists = await this.checkIfVehicleExists(vehicleToCreate);
         if (elementExists) {
-            throw new HttpError(404, { error: "Vehicle already exists" });
+            throw new HttpError(404, "Vehicle already exists");
         }
 
         const vehicle: VehicleSpanishDb = {

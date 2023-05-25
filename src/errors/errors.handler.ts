@@ -17,16 +17,21 @@ export class ErrorsHandler {
                 statusCode: 400,
                 HEADERS,
                 body: JSON.stringify({
-                    errors: generateErrorMessage(e.errors, options)
+                    message: "Schema error",
+                    detail: generateErrorMessage(e.errors, options)
                 }),
             };
         }
 
         else if (e instanceof HttpError) {
+            console.log(e.getErrorMessage());
+
             return {
                 statusCode: 400,
                 HEADERS,
-                body: JSON.stringify({ error: `Something went wrong : "${e.message}"` }),
+                body: JSON.stringify({
+                    message: "Something went wrong",
+                    detail: e.message }),
             };
         }
 
@@ -34,7 +39,10 @@ export class ErrorsHandler {
             return {
                 statusCode: 400,
                 HEADERS,
-                body: JSON.stringify({ error: `Error pending to be analyzed: ${e.message}` }),
+                body: JSON.stringify({
+                    message: "Something went wrong",
+                    detail: `Error pending to be analyzed: ${e.message}`
+                }),
             }
         }
     };

@@ -50,7 +50,7 @@ export class DynamoClient<E> {
         console.log(`Result: ${JSON.stringify(result.Items)}`)
 
         if (!result.Items) {
-            throw new HttpError(404, { error: "Zero elements were scanned" });
+            throw new HttpError(404, "Zero elements were scanned");
         }
 
         return result.Items;

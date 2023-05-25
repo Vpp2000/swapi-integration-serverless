@@ -9,8 +9,10 @@ frameworkVersion: "3"
 
 custom:
   autoswagger:
+    title: 'Trips API'
     typefiles:
       - './src/types/vehicle.type.ts'
+      - './src/types/errors.type.ts'
 
 provider:
   name: aws
@@ -46,6 +48,16 @@ functions:
       - httpApi:
           path: /vehicle
           method: post
+          consumes: [ 'application/json' ]
+          produces: [ 'application/json' ]
+          bodyType: "CreateVehicleDto"
+          responses:
+            201:
+              description: "Vehicle was created successfully"
+              bodyType: "VehicleSpanishDb"
+            400:
+              description: "Bad request"
+              bodyType: "ErrorResponse"
 
 plugins:
   - serverless-auto-swagger
