@@ -73,6 +73,9 @@ functions:
             200:
               description: "Vehicle was obtained successfully"
               bodyType: "VehicleSpanishDb"
+            404:
+              description: "Vehicle was not found"
+              bodyType: "ErrorResponse"
 plugins:
   - serverless-auto-swagger
   - serverless-plugin-typescript
