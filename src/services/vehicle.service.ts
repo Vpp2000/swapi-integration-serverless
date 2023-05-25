@@ -5,12 +5,17 @@ import {VEHICLES_TABLE_NAME} from "../helpers/constants";
 import {v4} from "uuid";
 
 export class VehicleService {
-    public async getAll(): Promise<VehicleSpanishDb[]>{
-        const swapiClient = new SwapiClient<VehicleSwapi>("vehicles");
-        const dynamoRepository = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
+    private swapiClient: SwapiClient<VehicleSwapi>;
+    private dynamoClient: DynamoClient<VehicleSpanishDb>;
 
-        const swapiData: VehicleSwapi[] = await swapiClient.getAll();
-        const dynamoData: VehicleSpanishDb[] = await dynamoRepository.listAll();
+    constructor(swapiClient: SwapiClient<VehicleSwapi>, dynamoClient: DynamoClient<VehicleSpanishDb>) {
+        this.swapiClient = swapiClient;
+        this.dynamoClient = dynamoClient;
+    }
+
+    public async getAll(): Promise<VehicleSpanishDb[]>{
+        const swapiData: VehicleSwapi[] = await this.swapiClient.getAll();
+        const dynamoData: VehicleSpanishDb[] = await this.dynamoClient.listAll();
 
         const swapiDataSpanish: VehicleSpanishDb[] = swapiData.map((vehicle) => <VehicleSpanishDb> {
             capacidad_carga: vehicle.cargo_capacity,
@@ -42,14 +47,13 @@ export class VehicleService {
 
 
     public async createVehicle(vehicleToCreate: CreateVehicleDto): Promise<VehicleSpanishDb>{
-        const dynamoRepository = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
         const vehicle: VehicleSpanishDb = {
             ...vehicleToCreate,
             id: v4(),
             creadoEn: Date.now().toString(),
             editadoEn: null
         };
-        await dynamoRepository.insert(vehicle);
+        await this.dynamoClient.insert(vehicle);
         return vehicle;
     }
 }
