@@ -21,9 +21,7 @@ export interface VehicleSpanish {
     capacidad_carga:         string;
     consumibles:            string;
     costo_en_creditos:        string;
-    creadoEn:                string;
     flota:                   string;
-    editadoEn:                 string;
     tamaño:                 string;
     fabricante:           string;
     velocidad_atmosferica_maxima: string;
@@ -36,12 +34,41 @@ export interface VehicleSpanish {
     clase_vehiculo:          string;
 }
 
-export interface VehicleSpanishDb extends VehicleSpanish {
+export interface VehicleSpanishDb {
     id: string;
+    creadoEn: string;
+    editadoEn: string | null;
+    capacidad_carga:         string;
+    consumibles:            string;
+    costo_en_creditos:        string;
+    flota:                   string;
+    tamaño:                 string;
+    fabricante:           string;
+    velocidad_atmosferica_maxima: string;
+    modelo:                  string;
+    nombre:                   string;
+    pasajeros:             string;
+    pilotos:                 any[];
+    peliculas:                  string[];
+    url:                    string;
+    clase_vehiculo:          string;
 }
 
-export type VehicleSpanishList = VehicleSpanish[];
+export type VehicleSpanishList = Array<VehicleSpanishDb>;
 
-export interface CreateVehicleDto extends VehicleSpanish{
-
+export interface CreateVehicleDto {
+    capacidad_carga:         string;
+    consumibles:            string;
+    costo_en_creditos:        string;
+    flota:                   string;
+    tamaño:                 string;
+    fabricante:           string;
+    velocidad_atmosferica_maxima: string;
+    modelo:                  string;
+    nombre:                   string;
+    pasajeros:             string;
+    pilotos:                 any[];
+    peliculas:                  string[];
+    url:                    string;
+    clase_vehiculo:          string;
 }

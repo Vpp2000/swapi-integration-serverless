@@ -46,6 +46,8 @@ export class VehicleService {
         const vehicle: VehicleSpanishDb = {
             ...vehicleToCreate,
             id: v4(),
+            creadoEn: Date.now().toString(),
+            editadoEn: null
         };
         await dynamoRepository.insert(vehicle);
         return vehicle;
