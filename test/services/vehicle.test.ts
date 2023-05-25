@@ -45,4 +45,21 @@ describe("Vehicles", () => {
       vehicleService.createVehicle(MOCK_VEHICLE_CREATION)
     ).rejects.toThrow(HttpError)
   })
+
+  it("test_when_vehicle_is_not_found", async () => {
+    const object = undefined;
+    const mockDynamoClient = {
+      getElementByPrimaryKey: jest.fn("SOME_ID" as any).mockReturnValue(object)
+    }
+
+    const mockSwapiClient = {
+      getAll: jest.fn(() => MOCKED_SWAPI_DATA)
+    }
+
+    const vehicleService = new VehicleService(mockSwapiClient as any, mockDynamoClient as any);
+    await expect(async () =>
+      vehicleService.getVehicleById("SOME_ID")
+    ).rejects.toThrow(HttpError)
+
+  })
 })
