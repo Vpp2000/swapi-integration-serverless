@@ -37,6 +37,7 @@ functions:
       - httpApi:
           path: /vehicle
           method: get
+          swaggerTags: ["Vehicles"]
           responses:
             200:
               description: "Successful API response"
@@ -48,6 +49,7 @@ functions:
       - httpApi:
           path: /vehicle
           method: post
+          swaggerTags: ["Vehicles"]
           consumes: [ 'application/json' ]
           produces: [ 'application/json' ]
           bodyType: "CreateVehicleDto"
