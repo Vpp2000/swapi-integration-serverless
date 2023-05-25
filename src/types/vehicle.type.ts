@@ -18,16 +18,16 @@ export interface VehicleSwapi {
 }
 
 export interface VehicleSpanish {
-    capacidad_carga:         string;
+    capacidad_carga:         number;
     consumibles:            string;
-    costo_en_creditos:        string;
-    flota:                   string;
-    tamaño:                 string;
+    costo_en_creditos:        number;
+    flota:                   number;
+    tamaño:                 number;
     fabricante:           string;
-    velocidad_atmosferica_maxima: string;
+    velocidad_atmosferica_maxima: number;
     modelo:                  string;
     nombre:                   string;
-    pasajeros:             string;
+    pasajeros:             number;
     pilotos:                 any[];
     peliculas:                  string[];
     url:                    string;
@@ -38,16 +38,16 @@ export interface VehicleSpanishDb {
     id: string;
     creadoEn: string;
     editadoEn: string | null;
-    capacidad_carga:         string;
+    capacidad_carga:         number;
     consumibles:            string;
-    costo_en_creditos:        string;
-    flota:                   string;
-    tamaño:                 string;
+    costo_en_creditos:        number;
+    flota:                   number;
+    tamaño:                 number;
     fabricante:           string;
-    velocidad_atmosferica_maxima: string;
+    velocidad_atmosferica_maxima: number;
     modelo:                  string;
     nombre:                   string;
-    pasajeros:             string;
+    pasajeros:             number;
     pilotos:                 any[];
     peliculas:                  string[];
     url:                    string;
@@ -57,16 +57,16 @@ export interface VehicleSpanishDb {
 export type VehicleSpanishList = Array<VehicleSpanishDb>;
 
 export interface CreateVehicleDto {
-    capacidad_carga:         string;
+    capacidad_carga:         number;
     consumibles:            string;
-    costo_en_creditos:        string;
-    flota:                   string;
-    tamaño:                 string;
+    costo_en_creditos:        number;
+    flota:                   number;
+    tamaño:                 number;
     fabricante:           string;
-    velocidad_atmosferica_maxima: string;
+    velocidad_atmosferica_maxima: number;
     modelo:                  string;
     nombre:                   string;
-    pasajeros:             string;
+    pasajeros:             number;
     pilotos:                 any[];
     peliculas:                  string[];
     url:                    string;
