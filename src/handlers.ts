@@ -8,7 +8,7 @@ import { SwapiClient } from "./client/swapi.client";
 import { DynamoClient } from "./client/dynamo.client";
 
 const swapiClient = new SwapiClient<VehicleSwapi>("vehicles");
-const dynamoClient = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME, "nombre");
+const dynamoClient = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME, "nombre", "id");
 
 
 export const listVehicles = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -39,3 +39,19 @@ export const createVehicle = async (event: APIGatewayProxyEvent): Promise<APIGat
     return ErrorsHandler.handleError(e);
   }
 };
+
+export const getVehicleById = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    const vehicleService = new VehicleService(swapiClient, dynamoClient);
+    const vehicleId = event.pathParameters?.id as string;
+    const vehicle: VehicleSpanishDb = await vehicleService.getVehicleById(vehicleId);
+
+    return {
+      statusCode: 200,
+      headers: HEADERS,
+      body: JSON.stringify(vehicle),
+    };
+  } catch (e: any) {
+    return ErrorsHandler.handleError(e);
+  }
+}

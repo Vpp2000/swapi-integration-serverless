@@ -6,10 +6,12 @@ export class DynamoClient<E> {
     private tableName: string;
     private uniqueKey: string;
     private dynamoClient: any;
+    private primaryKey: string;
 
-    constructor(tableName: string, uniqueKey: string) {
+    constructor(tableName: string, uniqueKey: string, primaryKey: string) {
         this.tableName = tableName;
         this.uniqueKey = uniqueKey;
+        this.primaryKey = primaryKey;
         this.dynamoClient = new AWS.DynamoDB.DocumentClient();
     }
 
@@ -31,6 +33,19 @@ export class DynamoClient<E> {
             })
             .promise();
         return item;
+    }
+
+    public async getElementByPrimaryKey(id: string): Promise<E> {
+      const result = await this.dynamoClient
+        .get({
+          TableName: this.tableName,
+          Key: { id },
+        })
+        .promise();
+
+      const vehicle = result.Item;
+
+      return vehicle;
     }
 
     public async getElementByUniqueKey(uniqueKeyValue: string): Promise<any>{

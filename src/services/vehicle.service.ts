@@ -63,6 +63,16 @@ export class VehicleService {
         return vehicle;
     }
 
+    public async getVehicleById(vehicleId: string): Promise<VehicleSpanishDb> {
+        const vehicle = await this.dynamoClient.getElementByPrimaryKey(vehicleId);
+
+        if(!vehicle){
+            throw new HttpError(404, "")
+        }
+
+        return vehicle;
+    }
+
     private async checkIfVehicleExists(vehicleToCreate: CreateVehicleDto){
         let elementExists = false
         const itemsResponse: any[] = await this.dynamoClient.getElementByUniqueKey(vehicleToCreate.nombre);

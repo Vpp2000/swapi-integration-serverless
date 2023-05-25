@@ -61,6 +61,18 @@ functions:
               description: "Bad request"
               bodyType: "ErrorResponse"
 
+  getVehicleById:
+    handler: src/handlers.getVehicleById
+    events:
+      - httpApi:
+          path: /vehicle/{id}
+          method: get
+          swaggerTags: ["Vehicles"]
+          produces: [ 'application/json' ]
+          responses:
+            200:
+              description: "Vehicle was obtained successfully"
+              bodyType: "VehicleSpanishDb"
 plugins:
   - serverless-auto-swagger
   - serverless-plugin-typescript
