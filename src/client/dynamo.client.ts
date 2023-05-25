@@ -1,12 +1,15 @@
 import AWS from "aws-sdk";
 import {VEHICLES_TABLE_NAME} from "../helpers/constants";
+import { HttpError } from "../errors/http_error";
 
 export class DynamoClient<E> {
     private tableName: string;
+    private uniqueKey: string;
     private dynamoClient: any;
 
-    constructor(tableName: string) {
+    constructor(tableName: string, uniqueKey: string) {
         this.tableName = tableName;
+        this.uniqueKey = uniqueKey;
         this.dynamoClient = new AWS.DynamoDB.DocumentClient();
     }
 
@@ -21,12 +24,35 @@ export class DynamoClient<E> {
     }
 
     public async insert(item: E): Promise<E>{
-        await this.dynamoClient
+        const result = await this.dynamoClient
             .put({
-                TableName: VEHICLES_TABLE_NAME,
+                TableName: this.tableName,
                 Item: item,
             })
             .promise();
         return item;
+    }
+
+    public async getElementByUniqueKey(uniqueKeyValue: string): Promise<any>{
+      const params = {
+        TableName: this.tableName, // Replace with your actual table name
+        ExpressionAttributeValues: {
+          ":search": uniqueKeyValue
+        },
+        FilterExpression: `${this.uniqueKey} = :search`,
+        ProjectionExpression: this.uniqueKey,
+
+      };
+
+        const result = await this.dynamoClient.scan(params).promise();
+
+        console.log(params);
+        console.log(`Result: ${JSON.stringify(result.Items)}`)
+
+        if (!result.Items) {
+            throw new HttpError(404, { error: "Zero elements were scanned" });
+        }
+
+        return result.Items;
     }
 }

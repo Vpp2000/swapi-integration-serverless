@@ -1,6 +1,12 @@
 import { describe, it } from "@jest/globals";
 import { VehicleService } from "../../src/services/vehicle.service";
-import { EXPECTED_DATA_SWAPI, MOCKED_DYNAMO_DATA, MOCKED_SWAPI_DATA } from "../mocks/list_test.data";
+import {
+  EXPECTED_DATA_SWAPI,
+  MOCK_VEHICLE_CREATION,
+  MOCKED_DYNAMO_DATA,
+  MOCKED_SWAPI_DATA,
+} from "../mocks/list_test.data";
+import { HttpError } from "../../src/errors/http_error";
 
 describe("Vehicles", () => {
   it("test_list_all", async () => {
@@ -21,5 +27,22 @@ describe("Vehicles", () => {
 
     expect(data).toBeDefined();
     expect(data.sort()).toEqual(expectedData.sort());
+  })
+
+  it("test_creation_duplicated", async () => {
+    const mockDynamoClient = {
+      getElementByUniqueKey: jest.fn((MOCK_VEHICLE_CREATION) => [{
+        key: "some value"
+      }])
+    }
+
+    const mockSwapiClient = {
+      getAll: jest.fn(() => MOCKED_SWAPI_DATA)
+    }
+
+    const vehicleService = new VehicleService(mockSwapiClient as any, mockDynamoClient as any);
+    await expect(async () =>
+      vehicleService.createVehicle(MOCK_VEHICLE_CREATION)
+    ).rejects.toThrow(HttpError)
   })
 })

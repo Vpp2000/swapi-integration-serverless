@@ -119,3 +119,27 @@ export const MOCKED_DYNAMO_DATA = [
     "velocidad_atmosferica_maxima": "30"
   }
 ]
+
+
+export const MOCK_VEHICLE_CREATION = {
+  "capacidad_carga": "50000",
+  "clase_vehiculo": "wheeled",
+  "consumibles": "2 months",
+  "costo_en_creditos": "150000",
+  "creadoEn": "2014-12-10T15:36:25.724000Z",
+  "editadoEn": "2014-12-20T21:30:21.661000Z",
+  "fabricante": "Corellia Mining Corporation",
+  "flota": "46",
+  "modelo": "Digger Crawler",
+  "nombre": "Sand Crawler",
+  "pasajeros": "30",
+  "peliculas": [
+    "https://swapi.py4e.com/api/films/1/",
+    "https://swapi.py4e.com/api/films/5/"
+  ],
+  "pilotos": [
+  ],
+  "tamaño": "36.8 ",
+  "url": "https://swapi.py4e.com/api/vehicles/4/",
+  "velocidad_atmosferica_maxima": "30"
+}

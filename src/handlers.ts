@@ -8,7 +8,7 @@ import { SwapiClient } from "./client/swapi.client";
 import { DynamoClient } from "./client/dynamo.client";
 
 const swapiClient = new SwapiClient<VehicleSwapi>("vehicles");
-const dynamoClient = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME);
+const dynamoClient = new DynamoClient<VehicleSpanishDb>(VEHICLES_TABLE_NAME, "nombre");
 
 
 export const listVehicles = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
